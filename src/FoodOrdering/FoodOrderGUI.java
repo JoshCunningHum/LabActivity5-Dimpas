@@ -1,17 +1,13 @@
 package FoodOrdering;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 public class FoodOrderGUI extends JFrame{
 
-    static HashMap<String, Integer> prices = new HashMap<String, Integer>();
+    static HashMap<String, Integer> prices = new HashMap<>();
 
     // set food
     static {
@@ -35,9 +31,9 @@ public class FoodOrderGUI extends JFrame{
     private JRadioButton rb5;
     private JRadioButton rb10;
     private JRadioButton rb15;
-    private List<JRadioButton> bgDiscounts = new ArrayList<JRadioButton>();
+    private final List<JRadioButton> bgDiscounts = new ArrayList<>();
 
-    private List<JCheckBox> bgFood = new ArrayList<JCheckBox>();
+    private final List<JCheckBox> bgFood = new ArrayList<>();
 
 
     public FoodOrderGUI(){
@@ -60,30 +56,35 @@ public class FoodOrderGUI extends JFrame{
         bgDiscounts.add(rb10);
         bgDiscounts.add(rb15);
 
-        btnOrder.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                takeOrder();
-            }
-        });
+        btnOrder.addActionListener(e -> takeOrder());
     }
 
     public void takeOrder(){
-        double totalOrder = 0;
+        try {
 
-        // loop through checkboxes
-        for(JCheckBox food : bgFood) if(food.isSelected()) totalOrder += FoodOrderGUI.prices.get(food.getText());
+            double totalOrder = 0;
 
+            // loop through checkboxes
+            for(JCheckBox food : bgFood) if(food.isSelected()) totalOrder += FoodOrderGUI.prices.get(food.getText());
 
-        double i = 0;
+            if(totalOrder == 0) throw new Exception("No Order Taken");
 
-        // apply discount if any
-        for(JRadioButton btn : bgDiscounts){
-            if(btn.isSelected()){
-                JOptionPane.showMessageDialog(this, String.format("The total price is Php %.2f", totalOrder * ((100.0 - i) / 100.0)));
-                break;
+            double i = 0;
+
+            // apply discount if any
+            for(JRadioButton btn : bgDiscounts){
+                if(btn.isSelected()){
+                    JOptionPane.showMessageDialog(this, String.format("The total price is Php %.2f", totalOrder * ((100.0 - i) / 100.0)));
+                    break;
+                }
+                i += 5;
             }
-            i += 5;
+        }catch (Exception e){
+            if ("No Order Taken".equals(e.getMessage())) {
+                JOptionPane.showMessageDialog(this, "Please select at least 1 order.");
+            } else {
+                JOptionPane.showMessageDialog(this, "Something went wrong, please try again.");
+            }
         }
     }
 
