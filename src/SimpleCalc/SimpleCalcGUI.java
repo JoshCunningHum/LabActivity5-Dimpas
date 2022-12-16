@@ -17,6 +17,7 @@ public class SimpleCalcGUI extends JFrame{
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.pack();
         this.setVisible(true);
+        this.setTitle("Simple Calculator");
 
         lblResult.setEditable(false);
 

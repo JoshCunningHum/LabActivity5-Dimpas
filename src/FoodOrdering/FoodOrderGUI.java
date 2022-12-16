@@ -45,6 +45,7 @@ public class FoodOrderGUI extends JFrame{
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.pack();
         this.setVisible(true);
+        this.setTitle("Food Ordering System");
 
         // set groups
         bgFood.add(cPizza);
